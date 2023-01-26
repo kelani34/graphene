@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "graphene-django"
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
@@ -43,6 +44,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+GRAPHENE = {
+    'SCHEMA':"customers.schema.schema",
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
