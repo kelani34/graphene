@@ -1,11 +1,15 @@
 import graphene
 import time
 from graphene_django import DjangoObjectType
-from customers.models import Customer
+from customers.models import Customer, Product
 
 class CustomerType(DjangoObjectType):
     class Meta:
         model =Customer
+        fields = '__all__'
+class ProductType(DjangoObjectType):
+    class Meta:
+        model= Product
         fields = '__all__'
 
 class CreateCustomer(graphene.Mutation):
@@ -24,6 +28,7 @@ class Query(graphene.ObjectType):
     customers = graphene.List(CustomerType)
     customer_name_first = graphene.Field(CustomerType, name=graphene.String(required=True))
     customer_name_multiple = graphene.List(CustomerType, name=graphene.String(required=True))
+    products = graphene.List(ProductType)
 
 
     def resolve_customers(root, info):
@@ -34,6 +39,9 @@ class Query(graphene.ObjectType):
             return Customer.objects.filter(name=name).first()
         except Customer.DoesNotExist:
             return None
+
+    def resolve_products(root, info):
+        return Customer.objects.select_related('customer').all()
 
     def resolve_customer_name_multiple(root, info, name):
         try:
