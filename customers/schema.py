@@ -1,6 +1,6 @@
 import graphene
+import time
 from graphene_django import DjangoObjectType
-
 from customers.models import Customer
 
 class CustomerType(DjangoObjectType):
@@ -15,6 +15,7 @@ class CreateCustomer(graphene.Mutation):
     customer = graphene.Field(CustomerType)
     
     def mutate(root, info, name, industry): 
+        time.sleep(3)
         customer = Customer(name=name, industry=industry)
         customer.save()
         return CreateCustomer(customer=customer)
