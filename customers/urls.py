@@ -11,5 +11,5 @@ urlpatterns = [
     path("api/customers/", views.customers, name='customers'),
     path("api/customers/<int:id>", views.customer, name='customer'),
     path("api/signup/", views.register, name='register'),
-    path("graphql/", GraphQLView.as_view(graphql=True)),
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
 ]
