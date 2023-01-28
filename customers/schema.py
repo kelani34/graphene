@@ -5,7 +5,7 @@ from customers.models import Customer, Product
 
 class CustomerType(DjangoObjectType):
     class Meta:
-        model =Customer
+        model = Customer
         fields = '__all__'
 class ProductType(DjangoObjectType):
     class Meta:
@@ -24,7 +24,19 @@ class CreateCustomer(graphene.Mutation):
         customer.save()
         return CreateCustomer(customer=customer)
 
+class CreateProduct(graphene.Mutation):
+    class Arguments:
+        description = graphene.String()
+        total = graphene.Int()
+        customer = graphene.ID()
 
+    product = graphene.Field(ProductType)
+
+    def mutate(root, info, description, total, customer):
+        product_id = Customer.objects.get(pk=customer)
+        product = Product(description=description, total=total, customer=product_id).save()
+
+        return CreateProduct(product=product)
 
 class Query(graphene.ObjectType):
     customers = graphene.List(CustomerType)
@@ -54,5 +66,6 @@ class Query(graphene.ObjectType):
 
 class Mutations(graphene.ObjectType):
     create_customer = CreateCustomer.Field()
+    create_product = CreateProduct.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
