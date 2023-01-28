@@ -24,6 +24,8 @@ class CreateCustomer(graphene.Mutation):
         customer.save()
         return CreateCustomer(customer=customer)
 
+
+
 class Query(graphene.ObjectType):
     customers = graphene.List(CustomerType)
     customer_name_first = graphene.Field(CustomerType, name=graphene.String(required=True))
@@ -51,6 +53,6 @@ class Query(graphene.ObjectType):
 
 
 class Mutations(graphene.ObjectType):
-    createCustomer = CreateCustomer.Field()
+    create_customer = CreateCustomer.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
