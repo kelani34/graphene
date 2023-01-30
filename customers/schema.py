@@ -33,6 +33,7 @@ class CreateProduct(graphene.Mutation):
     product = graphene.Field(ProductType)
 
     def mutate(root, info, description, total, customer):
+        time.sleep(3)
         product_id = Customer.objects.get(pk=customer)
         product = Product(description=description, total=total, customer=product_id).save()
 
