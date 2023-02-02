@@ -6,6 +6,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+
+def home():
+    return "Customers API backed by Django"
+
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def customers(request):
